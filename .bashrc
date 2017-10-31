@@ -193,8 +193,14 @@ export PROMPT_COMMAND=promptFunction
 export USERNAME="Ryan"
 export NICKNAME="Ryan"
 
+quoter[0]=$(fortune)
+quoter[1]=$(fortune /usr/local/fortune/bible)
+quoter[2]=$(verse)
+
 # Welcome message
 echo -ne "Good Morning, $NICKNAME! It's "; date '+%A, %B %-d %Y'
-echo -e "And now your moment of Zen:"; fortune
+echo -e "And now your moment of Zen:"
 echo
+rand=$[ $RANDOM % 3 ]
+echo ${quoter[$rand]}
 
