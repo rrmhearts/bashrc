@@ -16,8 +16,11 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=5000
+HISTFILESIZE=20000
+
+# Using current history in other terminals ry
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -115,3 +118,83 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+
+alias ..="cd .."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias ..6="cd ../../../../../.."
+
+# csearch function
+csrch() {
+	if [ "$1" == "-h" ]; then
+		echo "Usage: 'csearch dir search_phrase' Lists files containing phrase"
+	else
+		grep --include=\*.{c,cpp,h} -rnw "$1" -e "$2"
+	fi
+}
+
+replacestr() {
+        if [ "$1" == "-h" ]; then
+                echo "Usage: 'replacestr dir/ oldstring newstring"
+        else
+                grep -rl "$2" "$1" | xargs sed -i "s/$1/$2/g"
+        fi
+
+}
+
+supgrade() {
+	sudo apt update
+	yes | sudo apt upgrade
+	sudo apt autoremove
+	sudo apt autoclean
+}
+
+fslsdpart() {
+         if [ "$1" == "-h" ]; then
+                 echo "Usage: 'fsl-sd-part /dev/sdx' "
+         elif [ "${1%/*}" == "/dev" ]; then
+		 echo "Preparing disk..."
+		 sudo umount `echo "$1?*"` 2> /dev/null  
+		 sudo partprobe $1
+                 echo "Partitioning disk..."
+                 croot
+                 cd out/target/product/sabresd_6dq
+                 yes | sudo ../../../../device/fsl/common/tools/fsl-sdcard-partition.sh -f imx6q $1
+         
+         else
+                echo "Bad argument."
+         fi
+}
+
+
+# disable suspend, CTRL-s will not freeze bash
+stty -ixon
+
+# Android builds should be using SD card, not eMMC for boot storage
+export BUILD_TARGET_DEVICE=sd
+export ARCH=arm
+export CROSS_COMPILE=~/Android/Source/newdroid/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+
+promptFunction() {
+
+   if [ -e ./build/envsetup.sh ]; then
+	source ./build/envsetup.sh > /dev/null
+	chooseproduct sabresd_6dq > /dev/null
+	choosevariant eng > /dev/null
+   fi
+}
+
+# function cd () { builtin cd "$@" && promptFunction; } # recursive issue
+export PROMPT_COMMAND=promptFunction
+
+export USERNAME="Ryan"
+export NICKNAME="Ryan"
+
+# Welcome message
+echo -ne "Good Morning, $NICKNAME! It's "; date '+%A, %B %-d %Y'
+echo -e "And now your moment of Zen:"; fortune
+echo
+
