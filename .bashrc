@@ -94,6 +94,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias s='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -126,6 +127,7 @@ alias ..3="cd ../../.."
 alias ..4="cd ../../../.."
 alias ..5="cd ../../../../.."
 alias ..6="cd ../../../../../.."
+alias ..7="cd ../../../../../../.."
 
 alias reboot="sudo shutdown -r now"
 alias fn="find . -name"
@@ -250,6 +252,60 @@ echo ${quoter[$rand]}
 als () {
   echo "alias" $1'="'$2'"' >> ~/.bashrc
   source ~/.bashrc
+}
+
+expandPath() {
+  case $1 in
+    ~[+-]*)
+      local content content_q
+      printf -v content_q '%q' "${1:2}"
+      eval "content=${1:0:2}${content_q}"
+      printf '%s\n' "$content"
+      ;;
+    ~*)
+      local content content_q
+      printf -v content_q '%q' "${1:1}"
+      eval "content=~${content_q}"
+      printf '%s\n' "$content"
+      ;;
+    *)
+      printf '%s\n' "$1"
+      ;;
+  esac
+}
+
+# Replace "rm" command so that files are disposed to the
+# user's Gnome trash can.
+#
+_rmfile()
+{
+   echo "removing $1" 
+   type=`/usr/bin/stat --printf="%F" "$1"`
+
+   if [ "$type" == "directory" ]; then
+        echo -n "rm: cannot remove \`"
+        echo -n $1
+        echo "\`: Is a directory"
+   else
+        dir=`/usr/bin/dirname "$1"`
+        file=`/usr/bin/basename "$1"`
+        info=${HOME}/.local/share/Trash/info/"$file".trashinfo
+
+        cd "$dir"
+
+        /bin/cp "$file" ${HOME}/.local/share/Trash/files
+        /bin/rm -f "$file"
+
+        echo "[Trash Info]"                > "$info"
+        echo "Path=$PWD/$file"            >> "$info"
+        echo "DeletionDate=`date +%FT%T`" >> "$info"
+
+        cd "$OLDPWD"
+   fi
+}
+export -f _rmfile
+rmfile() {
+   echo $@ | xargs bash -c '_rmfile "$@"' # | xargs -I {} bash -c '_rmfile "$@"' {}
 }
 
 ### Pushing devlop branch directly to master
