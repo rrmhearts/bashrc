@@ -246,3 +246,14 @@ echo
 rand=$[ $RANDOM % 3 ]
 echo ${quoter[$rand]}
 
+
+als () {
+  echo "alias" $1'="'$2'"' >> ~/.bashrc
+  source ~/.bashrc
+}
+
+### Pushing devlop branch directly to master
+# $ git push origin develop:master
+
+### Drastically increased my internet. keeping
+# sudo sysctl -w net.ipv4.tcp_window_scaling=0
