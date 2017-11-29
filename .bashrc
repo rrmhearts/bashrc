@@ -141,11 +141,19 @@ csrch() {
 	fi
 }
 
+gfiles() {
+	if [ "$1" == "-h" ]; then
+                echo "Usage: 'gfiles search_phrase regex_files' Lists search_phrase in regex_files"
+        else
+		find . -iname "$2" -exec grep -i "$1" {} + 2> >(grep -Ev "Permission denied|Is a directory") | grep -v "Binary file"
+	fi
+}
+
 replacestr() {
         if [ "$1" == "-h" ]; then
                 echo "Usage: 'replacestr dir/ oldstring newstring"
         else
-                grep -rl "$2" "$1" | xargs sed -i "s/$1/$2/g"
+                grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
         fi
 
 }
@@ -220,20 +228,20 @@ extract() {
 fi
 }
 
-promptFunction() {
+#promptFunction() {
 
-   if [ "$PWD" != "$OLDPWD" ] && [ -e ./build/envsetup.sh ]; then
-	OLDPWD="$PWD";
-	source ./build/envsetup.sh > /dev/null
-	chooseproduct sabresd_6dq > /dev/null
-	choosevariant eng > /dev/null
-	echo "Setup Complete."
-   fi
-   export PROMPT_COMMAND=promptFunction
-}
+#   if [ "$PWD" != "$OLDPWD" ] && [ -e ./build/envsetup.sh ]; then
+#	OLDPWD="$PWD";
+#	source ./build/envsetup.sh > /dev/null
+#	chooseproduct sabresd_6dq > /dev/null
+#	choosevariant eng > /dev/null
+#	echo "Setup Complete."
+#   fi
+#   export PROMPT_COMMAND=promptFunction
+#}
 
 # function cd () { builtin cd "$@" && promptFunction; } # recursive issue
-export PROMPT_COMMAND=promptFunction
+#export PROMPT_COMMAND=promptFunction
 
 export USERNAME="Ryan"
 export NICKNAME="Ryan"
@@ -276,9 +284,8 @@ expandPath() {
 
 # Replace "rm" command so that files are disposed to the
 # user's Gnome trash can.
-#
-_rmfile()
-{
+
+rmSinglefile() {
    echo "removing $1" 
    type=`/usr/bin/stat --printf="%F" "$1"`
 
@@ -303,13 +310,40 @@ _rmfile()
         cd "$OLDPWD"
    fi
 }
-export -f _rmfile
-rmfile() {
-   echo $@ | xargs bash -c '_rmfile "$@"' # | xargs -I {} bash -c '_rmfile "$@"' {}
+
+rmfiles() {
+   for file in "$@"
+   do
+        rmSinglefile $file
+   done
+   # echo $@ | xargs bash -c '_rmfile "$1"' # | xargs -I {} bash -c '_rmfile "$@"' {}
 }
 
+cleanmemory() {
+	free_data="$(free)"
+	mem_data="$(echo "$free_data" | grep 'Mem:')"
+	free_mem="$(echo "$mem_data" | awk '{print $4}')"
+	buffers="$(echo "$mem_data" | awk '{print $6}')"
+	cache="$(echo "$mem_data" | awk '{print $7}')"
+	total_free=$((free_mem + buffers + cache))
+	used_swap="$(echo "$free_data" | grep 'Swap:' | awk '{print $3}')"
+	
+	echo -e "Free memory:\t$total_free kB ($((total_free / 1024)) MB)\nUsed swap:\t$used_swap kB ($((used_swap / 1024)) MB)"
+	echo 
+	# swap to ram
+	if [[ $used_swap -lt $total_free ]]; then
+		sudo sh -c "echo 0 > /proc/sys/vm/swappiness"
+	fi
+	# clean cache 
+	sudo sh -c "free && sync && echo 3 > /proc/sys/vm/drop_caches swapon -a && printf '\n\n%s\n\n' 'Ram-cache Cleared, Swap on' && free"
+	sudo sh -c "echo 10 > /proc/sys/vm/swappiness"
+
+}
 ### Pushing devlop branch directly to master
 # $ git push origin develop:master
 
 ### Drastically increased my internet. keeping
 # sudo sysctl -w net.ipv4.tcp_window_scaling=0
+
+### Regex that matches path names
+#  \/[^,:]*\.\w+ 
