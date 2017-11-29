@@ -26,7 +26,14 @@ source ~/.sections/android
 source ~/.sections/functions
 source ~/.sections/git
 
+timg `fn coolmount.png`
+sleep 1
 
+echo
+echo
+echo
+echo
+screenfetch
 echo 
 quoter[0]=$(fortune)
 quoter[1]=$(fortune /usr/local/fortune/bible)

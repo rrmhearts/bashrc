@@ -5,9 +5,20 @@
 
 There are Android dependencies that should be removed if you're not doing AOSP development.
 
-The following is needed for the moment of zen and searching functionality:
+The following is needed for the new terminal and searching functionality:
 ```
 sudo apt install fortune
 sudo apt install verse
 sudo apt install silversearcher-ag
+sudo apt screenfetch
 ```
+In addition, the tool timg is needed for the initial splash image. Binary is under usr/ for x86_64. However, here is the instructions to install
+```
+git clone https://github.com/hzeller/timg.git
+cd timg/src
+sudo apt-get install libwebp-dev libgraphicsmagick++1-dev    # required libs.
+make
+sudo make install
+```
+
+Put the included image under `~/` where you would like.
