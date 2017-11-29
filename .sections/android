@@ -7,6 +7,8 @@ export BUILD_TARGET_DEVICE=sd
 export ARCH=arm
 export CROSS_COMPILE=~/Android/Source/newdroid/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 
+alias git-android-status='git status | egrep -v "kernel_imx|bootable|out"'
+
 fslsdpart() {
          if [ "$1" == "-h" ]; then
                  echo "Usage: 'fsl-sd-part /dev/sdx' "

@@ -21,9 +21,11 @@ stty -ixon
 export USERNAME="Ryan"
 export NICKNAME="Ryan"
 
+source .sections/alias
 source .sections/android
 source .sections/functions
-source .sections/alias
+source .sections/git
+
 
 echo 
 quoter[0]=$(fortune)

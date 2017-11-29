@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "Loading git..."
+
+# Git Commands
+
+alias gpsh='git push origin'
+alias gpll='git pull origin'
+alias gdiff-commit='git diff HEAD~1 HEAD'
+alias glf='git ls-files'

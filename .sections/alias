@@ -25,3 +25,4 @@ alias ..7="cd ../../../../../../.."
 
 alias reboot="sudo shutdown -r now"
 alias fn="find . -name"
+alias gogo="source ~/.bashrc"

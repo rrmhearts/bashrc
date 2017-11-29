@@ -91,12 +91,35 @@ extract() {
 fi
 }
 
+gebit() {
+	gedit "$@" & disown
+}
+
 gfiles() {
 	if [ "$1" == "-h" ]; then
                 echo "Usage: 'gfiles search_phrase regex_files' Lists search_phrase in regex_files"
         else
 		find . -iname "$2" -exec grep -i "$1" {} + 2> >(grep -Ev "Permission denied|Is a directory") | grep -v "Binary file"
 	fi
+}
+
+giveme() {
+	sudo apt install "$@"
+}
+
+psg() {
+        if [ ! -z $1 ] ; then
+                ps aux | grep $1 
+        else
+                echo "Usage: 'psg psname' # Need name to grep for"
+        fi
+}
+
+repeat() {
+	local _
+	for _ in $(seq $1); do
+		eval "$2"
+	done
 }
 
 replacestr() {
@@ -144,7 +167,19 @@ rmfiles() {
    done
 }
 
-supgrade() {
+showme() {
+	sudo apt search $1
+}
+
+up()
+{
+    for i in `seq 1 $1`;
+    do
+        cd ../
+    done;
+}
+
+upgrademe() {
 	sudo apt update
 	yes | sudo apt upgrade
 	sudo apt autoremove
