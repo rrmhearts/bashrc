@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+echo "Loading alias..."
+
+als () {
+  echo "alias" $1'="'$2'"' >> ~/.sections/alias
+  source ~/.sections/alias
+}
+
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias s='ls -CF'
+
+alias cd..="cd .."
+alias ..="cd .."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias ..6="cd ../../../../../.."
+alias ..7="cd ../../../../../../.."
+
+alias reboot="sudo shutdown -r now"
+alias fn="find . -name"
