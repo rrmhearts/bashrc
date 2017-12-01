@@ -26,13 +26,14 @@ source ~/.sections/android
 source ~/.sections/functions
 source ~/.sections/git
 
-timg `fn coolmount.png`
+timg `find ~/Pictures/ -name coolmount.png 2>&1 | grep -v "Permission denied" | head -n 1`
 sleep 1
 
-echo
-echo
-echo
-echo
+for i in {1..50}
+do
+   echo 
+done
+
 screenfetch
 echo 
 quoter[0]=$(fortune)
