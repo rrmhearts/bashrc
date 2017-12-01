@@ -168,7 +168,11 @@ rmfiles() {
 }
 
 showme() {
-	sudo apt search $1
+   PAKS="$@"
+   for i in $PAKS
+   do
+      sudo apt search $i
+   done
 }
 
 up()
