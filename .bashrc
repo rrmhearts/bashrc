@@ -35,13 +35,27 @@ do
 done
 
 screenfetch
+
 echo 
+
 quoter[0]=$(fortune)
 quoter[1]=$(fortune /usr/local/fortune/bible)
 quoter[2]=$(verse)
 
+gday="Good day"
+h=`date +%H` #| sed -e 's/^0//g'
+
+if [ $h -lt 12 ]; then
+  gday="Good Morning"
+elif [ $h -lt 18 ]; then
+  gday="Good Afternoon"
+else
+  gday="Good Evening"
+fi
+
 # Welcome message
-echo -ne "Good Morning, $NICKNAME! It's "; date '+%A, %B %-d %Y'
+echo -ne "$gday, $NICKNAME! It's "; date '+%A, %B %-d %Y'
+echo -ne "The time is "; date '+%I:%M %P'
 echo 
 rand=$[ $RANDOM % 3 ]
 echo ${quoter[$rand]}

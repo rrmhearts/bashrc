@@ -2,9 +2,13 @@
 
 echo "Loading alias..."
 
-als () {
-  echo "alias" $1'="'$2'"' >> ~/.sections/alias
-  source ~/.sections/alias
+alscreate () {
+  if [ "$1" == "-h" -o "$#" -lt 2 ]; then
+	echo "Usage: alscreate alsname \"cmd -p arg1 arg2\""
+  else
+	echo "alias" $1'="'$2'"' >> ~/.sections/alias
+	source ~/.sections/alias
+  fi
 }
 
 
@@ -32,3 +36,4 @@ alias upgrade="sudo apt-get upgrade"
 alias remove="sudo apt-get autoremove"
 alias searchlocal="sudo apt-cache search"
 alias searchuniverse="sudo apt search"
+alias home="cd ~"

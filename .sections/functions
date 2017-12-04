@@ -26,7 +26,7 @@ cleanmemory() {
 
 # csearch function
 csrch() {
-	if [ "$1" == "-h" ]; then
+	if [ "$1" == "-h" -o "$#" -lt 2 ]; then
 		echo "Usage: 'csearch dir search_phrase' Lists files containing phrase"
 	else
 		grep --include=\*.{c,cpp,h} -rnw "$1" -e "$2"
@@ -91,12 +91,22 @@ extract() {
 fi
 }
 
+files() {
+	if [ "$#" -eq 0 ]; then
+	   gnome-open . 2> /dev/null & disown
+	elif [ "$1" == "-h" ]; then
+	   echo "Usage: 'files [dir]' Open directory in Files app"
+	else
+	   gnome-open $1 2> /dev/null & disown
+	fi
+}
+
 gebit() {
 	gedit "$@" & disown
 }
 
 gfiles() {
-	if [ "$1" == "-h" ]; then
+	if [ "$1" == "-h" -o "$#" -lt 2 ]; then
                 echo "Usage: 'gfiles search_phrase regex_files' Lists search_phrase in regex_files"
         else
 		find . -iname "$2" -exec grep -i "$1" {} + 2> >(grep -Ev "Permission denied|Is a directory") | grep -v "Binary file"
@@ -123,7 +133,7 @@ repeat() {
 }
 
 replacestr() {
-        if [ "$1" == "-h" ]; then
+        if [ "$1" == "-h" -o "$#" -lt 3 ]; then
                 echo "Usage: 'replacestr dir/ oldstring newstring"
         else
                 grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
