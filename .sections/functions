@@ -132,13 +132,47 @@ repeat() {
 	done
 }
 
-replacestr() {
+replacestr_all() {
         if [ "$1" == "-h" -o "$#" -lt 3 ]; then
-                echo "Usage: 'replacestr dir/ oldstring newstring"
+                echo "Usage: 'replacestr_all dir/ oldstring newstring' for all strings THROUGHOUT files including the file names"
+        else
+                grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
+		rename "s/$2/$3/" "$1"/*
+        fi
+# rename 's/\.bak$//' *.bak ## Strip extension
+# rename 'y/A-Z/a-z/' *     ## Upper case to lowercase
+}
+
+replacestr_in() {
+        if [ "$1" == "-h" -o "$#" -lt 3 ]; then
+                echo "Usage: 'replacestr_in dir/ oldstring newstring' For all strings INSIDE files"
         else
                 grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
         fi
 
+}
+
+risky() {
+
+	if [ "$1" == "-h" -o "$#" -lt 1 ]; then
+		echo "Usage: 'risky command arg1 arg2 ...' backup arg if file or dir"
+	else
+		# create backup location if necessary
+		backup_dir=~/.backup/
+		[[ -d $backup_dir ]] || mkdir $backup_dir
+	
+		# iterate over risky files
+		for i in $@; do
+		  if [[ -d $i ]]; then
+		    cp -fr $i $backup_dir
+		    echo "$i is backed up"
+		  elif [[ -f $i ]]; then
+		    cp $i $backup_dir
+		    echo "$i is backed up"
+		  fi
+		done
+		eval "$@"
+	fi
 }
 
 # Replace "rm" command so that files are disposed to the
@@ -193,7 +227,7 @@ up()
     done;
 }
 
-upgrademe() {
+upgrade_cleanme() {
 	sudo apt update
 	yes | sudo apt upgrade
 	sudo apt autoremove

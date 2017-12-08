@@ -13,14 +13,15 @@ fslsdpart() {
          if [ "$1" == "-h" ]; then
                  echo "Usage: 'fsl-sd-part /dev/sdx' "
          elif [ "${1%/*}" == "/dev" ]; then
+		 mypath=`pwd`
 		 echo "Preparing disk..."
 		 sudo umount `echo "$1?*"` 2> /dev/null  
 		 sudo partprobe $1
-                 echo "Partitioning disk..."
                  croot
                  cd out/target/product/sabresd_6dq
+                 echo "Partitioning disk..."
                  yes | sudo ../../../../device/fsl/common/tools/fsl-sdcard-partition.sh -f imx6q $1
-         
+         	 cd $mypath
          else
                 echo "Bad argument."
          fi

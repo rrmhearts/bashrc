@@ -59,18 +59,3 @@ echo -ne "The time is "; date '+%I:%M %P'
 echo 
 rand=$[ $RANDOM % 3 ]
 echo ${quoter[$rand]}
-
-
-### Pushing devlop branch directly to master
-# $ git push origin develop:master
-
-### Drastically increased my internet. keeping
-# sudo sysctl -w net.ipv4.tcp_window_scaling=0
-
-### Regex that matches path names
-#  \/[^,:]*\.\w+ 
-
-### Copy new differences to third directory
-# diff -qr NewFiles/ OldFiles/ | awk '{print $2}' | egrep -v "in" | xargs -n1 -I R cp --parents R Location
-# $ cp -pv --parents `git diff --name-only` DESTINATION-DIRECTORY
-

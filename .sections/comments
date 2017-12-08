@@ -1,0 +1,46 @@
+### Pushing devlop branch directly to master
+# $ git push origin develop:master
+
+### Drastically increased my internet. keeping
+# sudo sysctl -w net.ipv4.tcp_window_scaling=0
+
+### Regex that matches path names
+#  \/[^,:]*\.\w+ 
+
+### Copy new differences to third directory
+# diff -qr NewFiles/ OldFiles/ | awk '{print $2}' | egrep -v "in" | xargs -n1 -I R cp --parents R Location
+# $ cp -pv --parents `git diff --name-only` DESTINATION-DIRECTORY
+
+## auto intercede all commands, modify them
+# shopt -s extdebug
+# 
+# preexec_invoke_exec () {
+#     [ -n "$COMP_LINE" ] && return  # do nothing if completing
+#     [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return # don't cause a preexec for $PROMPT_COMMAND
+#     local this_command=`HISTTIMEFORMAT= history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//"`;
+# 
+#     # So that you don't get locked accidentally
+#     if [ "shopt -u extdebug" == "$this_command" ]; then
+#         return 0
+#     fi
+# 
+#     # Modify $this_command and then execute it
+#     return 1 # This prevent executing of original command
+# }
+# trap 'preexec_invoke_exec' DEBUG
+
+
+## comment and uncomment selection of lines
+
+# For those tasks I use most of the time block selection.
+# 
+# Put your cursor on the first # character, press CtrlV (or CtrlQ for gVim), and go down until the last commented line and press x, that will delete all the # characters vertically.
+# 
+# For commenting a block of text is almost the same:
+# 
+# 1.    First, go to the first line you want to comment, press CtrlV. This will put the editor in the VISUAL BLOCK mode.
+# 2.    Then using the arrow key and select until the last line
+# 3.    Now press ShiftI, which will put the editor in INSERT mode and then press #. This will add a hash to the first line.
+# 4.    Then press Esc (give it a second), and it will insert a # character on all other selected lines.
+# 
+# For the stripped-down version of vim shipped with debian/ubuntu by default, type : s/^/# in the third step instead.
