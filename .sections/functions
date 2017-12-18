@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Loading functions..."
-
 # clean ram. set swappiness to 10
 cleanmemory() {
 	free_data="$(free)"

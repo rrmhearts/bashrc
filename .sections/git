@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-echo "Loading git..."
-
 # Git Commands
 
 alias gpsh='git push origin'
 alias gpll='git pull origin'
 alias git-diff-commit='git diff HEAD~1 HEAD'
+alias git-status-no-untracked='git status -uno'
 alias glf='git ls-files'
 
 git-uncommit-files() {

@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-echo "Loading android..."
-
 # Android builds should be using SD card, not eMMC for boot storage
 export BUILD_TARGET_DEVICE=sd
 export ARCH=arm
 export CROSS_COMPILE=~/Android/Source/newdroid/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 
-alias git-android-status='git status | egrep -v "kernel_imx|bootable|out"'
-
+alias git-android-status='git status -uno | egrep -v "out|*generated*"'
+alias newdroid='cd ~/Android/Source/newdroid'
 fslsdpart() {
          if [ "$1" == "-h" ]; then
                  echo "Usage: 'fsl-sd-part /dev/sdx' "

@@ -1,6 +1,9 @@
 
 #!/usr/bin/env bash
 
+# Splash
+timg `find ~/Pictures/ -name coolmount.png 2>&1 | grep -v "Permission denied" | head -n 1`
+
 source ~/.sections/defaults
 
 # append to the history file, don't overwrite it
@@ -26,14 +29,13 @@ source ~/.sections/android
 source ~/.sections/functions
 source ~/.sections/git
 
-timg `find ~/Pictures/ -name coolmount.png 2>&1 | grep -v "Permission denied" | head -n 1`
-sleep 1
-
-for i in {1..50}
+# Scroll past splash screen
+for i in {1..40}
 do
    echo 
 done
 
+# Welcome 
 screenfetch
 
 echo 

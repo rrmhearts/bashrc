@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Loading alias..."
-
 alscreate () {
   if [ "$1" == "-h" -o "$#" -lt 2 ]; then
 	echo "Usage: alscreate alsname \"cmd -p arg1 arg2\""
