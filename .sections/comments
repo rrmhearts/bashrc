@@ -49,4 +49,7 @@
 ## clock in top right corner, one shell
 # while sleep 1;do tput sc;tput cup 0 $(($(tput cols)-25));date;tput rc;done &
 
-
+## smiley on success
+# smiley () { echo -e ":\\$(($??50:51))"; }
+# export PS1="\h\$(smiley) \e[30;1m\w\e[0m\n\$ "
+#
