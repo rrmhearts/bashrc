@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
 
+#
+bible-passage() {
+# To display the first 5 verses of Revelation chapter 2:
+	if [ "$1" == "-h" -o "$#" -lt 3 ]; then
+		echo "Usage: 'bible-passage #verses book chapter"
+	else
+		diatheke -b KJV -m $1 -k $2 $3
+	fi
+}
+
+bible-verse() {
+	if [ "$1" == "-h" -o "$#" -lt 2 ]; then
+		echo "Usage: 'bible-verse book reference"
+	else
+		diatheke -b ESV -k $1 $2 | sed "s/$1[^:]*://g" | sed '/^$/d'
+	fi
+}
+
 # clean ram. set swappiness to 10
 cleanmemory() {
 	free_data="$(free)"

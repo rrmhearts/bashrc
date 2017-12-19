@@ -53,3 +53,16 @@
 # smiley () { echo -e ":\\$(($??50:51))"; }
 # export PS1="\h\$(smiley) \e[30;1m\w\e[0m\n\$ "
 #
+
+
+# Ubuntu: sudo apt-get install diatheke unzip
+# wget http://www.crosswire.org/ftpmirror/pub/sword/packages/rawzip/KJV.zip
+# cd /usr/share/sword/
+# sudo unzip ~/KJV.zip
+
+# diatheke -b KJV -s phrase -k lucifer
+# diatheke -b KJV -k Revelation 19:15
+# diatheke -b KJV -m 5 -k "Revelation 2"
+
+# To display a verse and make the output in HTML:
+# diatheke -b KJV -f HTML -k Isaiah 14:12

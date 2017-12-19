@@ -27,7 +27,7 @@ alias ..7="cd ../../../../../../.."
 
 alias reboot="sudo shutdown -r now"
 alias fn="find . -name"
-alias gogo="source ~/.bashrc; cp ~/.bashrc Github/bashrc/; cp ~/.sections/ -r Github/bashrc/"
+alias gogo="source ~/.bashrc; cp ~/.bashrc ~/Github/bashrc/; cp ~/.sections/ -r ~/Github/bashrc/"
 alias install="sudo apt install"
 alias update="sudo apt-get update"
 alias upgrade="sudo apt-get upgrade"
@@ -36,3 +36,6 @@ alias searchlocal="sudo apt-cache search"
 alias searchuniverse="sudo apt search"
 alias home="cd ~"
 alias ..ls="cd .. && ls"
+
+alias bible-find="diatheke -b ESV -s phrase -k"
+

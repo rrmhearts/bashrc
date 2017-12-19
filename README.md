@@ -7,7 +7,7 @@ There are Android dependencies that should be removed if you're not doing AOSP d
 
 The following is needed for the new terminal and searching functionality:
 ```
-sudo apt install fortune verse silversearcher-ag screenfetch libgnome2-bin
+sudo apt install fortune verse silversearcher-ag screenfetch libgnome2-bin diatheke
 ```
 In addition, the tool timg is needed for the initial splash image. Binary is under usr/ for x86_64. However, here is the instructions to install on your own
 ```
