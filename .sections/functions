@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+back() {
+	# go back one cd.
+	cd $OLDPWD
+}
 #
 bible-passage() {
 # To display the first 5 verses of Revelation chapter 2:
@@ -176,6 +180,7 @@ psg() {
 }
 
 repeat() {
+	# repeat 5 "echo 'hi'"
 	local _
 	for _ in $(seq $1); do
 		eval "$2"
