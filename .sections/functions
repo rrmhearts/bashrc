@@ -14,7 +14,41 @@ bible-verse() {
 	if [ "$1" == "-h" -o "$#" -lt 2 ]; then
 		echo "Usage: 'bible-verse book reference"
 	else
-		diatheke -b ESV -k $1 $2 | sed "s/$1[^:]*://g" | sed '/^$/d'
+		diatheke -b ESV -k $1 $2 | sed "s/$1[^:]*://g" | sed '/^:*\s*$/d' | head -n -2
+	fi
+}
+
+bookmark() {
+	if [ "$1" == "-h" ]; then
+		echo "       *** Bookmark Help ***"
+		echo "Usage: bookmark -s to store location"
+		echo "       bookmark -o [#] to restore location only"
+		echo "       bookmark -d [#] to restore then remove"
+		echo "       bookmark    to see list of bookmarks"
+	elif [ "$1" == "-s" ]; then
+		echo `pwd` >> ~/.bookmarks
+	elif [ "$1" == "-d" ]; then
+		if [ "$#" -lt 2 ]; then
+			bookmark_val=$( tail -n 1 ~/.bookmarks )
+			sed -i '$ d' ~/.bookmarks
+			cd $bookmark_val
+		else
+			bookmar_val=$( sed "${2}q;d" ~/.bookmarks )
+			sed -i "${2} d" ~/.bookmarks
+			cd $bookmark_val
+		fi
+	elif [ "$1" == "-o" ]; then
+		if [ "$#" -lt 2 ]; then
+			bookmark_val=$( tail -n 1 ~/.bookmarks )
+			cd $bookmark_val
+		else
+			bookmar_val=$( sed "${2}q;d" ~/.bookmarks )
+			cd $bookmark_val
+		fi
+
+	else 
+		echo "       *** Available Bookmarks ***"
+		cat -n ~/.bookmarks # list bookmarks
 	fi
 }
 
