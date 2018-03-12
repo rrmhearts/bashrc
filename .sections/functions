@@ -37,7 +37,7 @@ bookmark() {
 			sed -i '$ d' ~/.bookmarks
 			cd $bookmark_val
 		else
-			bookmar_val=$( sed "${2}q;d" ~/.bookmarks )
+			bookmark_val=$( sed "${2}q;d" ~/.bookmarks )
 			sed -i "${2} d" ~/.bookmarks
 			cd $bookmark_val
 		fi
@@ -46,7 +46,7 @@ bookmark() {
 			bookmark_val=$( tail -n 1 ~/.bookmarks )
 			cd $bookmark_val
 		else
-			bookmar_val=$( sed "${2}q;d" ~/.bookmarks )
+			bookmark_val=$( sed "${2}q;d" ~/.bookmarks )
 			cd $bookmark_val
 		fi
 
