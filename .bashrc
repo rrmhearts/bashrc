@@ -14,7 +14,7 @@ HISTSIZE=5000
 HISTFILESIZE=20000
 
 # Using current history in other terminals ry
-# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # disable suspend, CTRL-s will not freeze bash
 stty -ixon
@@ -29,6 +29,7 @@ source ~/.sections/alias
 source ~/.sections/android
 source ~/.sections/functions
 source ~/.sections/git
+source ~/.sections/rfidtest
 # Scroll past splash screen
 # for i in {1..40}
 # do
@@ -63,7 +64,8 @@ rand=$[ $RANDOM % 3 ]
 echo ${quoter[$rand]}
 
 echo
+savoy
+
 echo
-echo "Notes:"
 cat ~/.notes.txt
 

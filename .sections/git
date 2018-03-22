@@ -18,3 +18,7 @@ git-uncommit-files() {
 	fi
 	
 }
+
+git-pwd-status() {
+	git status | sed '/^ *\.\./ d'
+}

@@ -1,5 +1,5 @@
 # bashrc
-
+![](https://github.com/rrmhearts/bashrc/example.png)
 
 ## Requirements
 
@@ -9,7 +9,7 @@ The following is needed for the new terminal and searching functionality:
 ```
 sudo apt install fortune verse silversearcher-ag screenfetch libgnome2-bin diatheke
 ```
-In addition, the tool timg is needed for the initial splash image. Binary is under usr/ for x86_64. However, here is the instructions to install on your own
+In addition, the tool timg is needed for the commented out initial splash image. Binary is under usr/ for x86_64. However, here is the instructions to install on your own
 ```
 git clone https://github.com/hzeller/timg.git
 cd timg/src
@@ -19,3 +19,5 @@ sudo make install
 ```
 
 Put the included image under `~/Pictures` where you would like.
+
+Now reads the Savoy Declaration!

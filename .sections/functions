@@ -47,6 +47,7 @@ bookmark() {
 			cd $bookmark_val
 		else
 			bookmark_val=$( sed "${2}q;d" ~/.bookmarks )
+			echo "Going to $bookmark_val"
 			cd $bookmark_val
 		fi
 
@@ -159,7 +160,7 @@ gebit() {
 	gedit "$@" & disown
 }
 
-gfiles() {
+grep_files() {
 	if [ "$1" == "-h" -o "$#" -lt 2 ]; then
                 echo "Usage: 'gfiles search_phrase regex_files' Lists search_phrase in regex_files"
         else
@@ -272,6 +273,21 @@ showme() {
    do
       sudo apt search $i
    done
+}
+
+savoy() {
+	CNT_FILE="$HOME/.counter.tmp"
+	if [ ! -e "$CNT_FILE" ]; then
+		echo "1" > $CNT_FILE
+	fi
+	count=`cat $CNT_FILE`
+	if [ $count -eq 408 ]; then
+		count=1
+	fi
+	sed -n "$count"p $HOME/.sections/savoy.txt
+	count=`expr $count + 1`
+	echo $count > $CNT_FILE
+	unset count
 }
 
 up()
