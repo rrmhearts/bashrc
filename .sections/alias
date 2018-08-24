@@ -40,3 +40,4 @@ alias ..ls="cd .. && ls"
 alias bible-find="diatheke -b ESV -s phrase -k"
 
 alias ram="free -h"
+alias git-tracked-status="git status -uno"

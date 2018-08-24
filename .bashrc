@@ -1,8 +1,4 @@
-
 #!/usr/bin/env bash
-
-# Splash
-alias mountainfresh=" timg `find ~/Pictures/ -name coolmount.png 2>&1 | grep -v \"Permission denied\" | head -n 1`"
 
 source ~/.sections/defaults
 
@@ -63,8 +59,8 @@ echo
 rand=$[ $RANDOM % 3 ]
 echo ${quoter[$rand]}
 
-echo
-savoy
+# echo
+# savoy
 
 echo
 cat ~/.notes.txt

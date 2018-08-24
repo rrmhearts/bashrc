@@ -3,10 +3,20 @@
 # Android builds should be using SD card, not eMMC for boot storage
 export BUILD_TARGET_DEVICE=sd
 export ARCH=arm
-export CROSS_COMPILE=~/Android/Source/newdroid/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 
 alias git-android-status='git status -uno | egrep -v "out|*generated*"'
-alias newdroid='cd ~/Android/Source/newdroid'
+
+android-setup() {
+	if [ -d build/ ]; then
+		export CURRENT_DROID=`pwd`
+		export CROSS_COMPILE=$CURRENT_DROID/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+		. build/envsetup.sh
+		lunch
+	else
+		echo "Not an Android directory"
+	fi
+}
+
 fslsdpart() {
          if [ "$1" == "-h" ]; then
                  echo "Usage: 'fsl-sd-part /dev/sdx' "
@@ -25,17 +35,11 @@ fslsdpart() {
          fi
 }
 
-#promptFunction() {
+lookup-error() {
+         if [ "$1" == "-h" ]; then
+                 echo "Usage: 'lookup-error [#]' "
+         else
+		 grep -irs --no-filename "\s$1\s" kernel_imx/include/uapi/asm-generic/errno*
+         fi
+}
 
-#   if [ "$PWD" != "$OLDPWD" ] && [ -e ./build/envsetup.sh ]; then
-#	OLDPWD="$PWD";
-#	source ./build/envsetup.sh > /dev/null
-#	chooseproduct sabresd_6dq > /dev/null
-#	choosevariant eng > /dev/null
-#	echo "Setup Complete."
-#   fi
-#   export PROMPT_COMMAND=promptFunction
-#}
-
-# function cd () { builtin cd "$@" && promptFunction; } # recursive issue
-#export PROMPT_COMMAND=promptFunction

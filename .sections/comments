@@ -66,3 +66,5 @@
 
 # To display a verse and make the output in HTML:
 # diatheke -b KJV -f HTML -k Isaiah 14:12
+
+# git diff --name-only `git merge-base origin/master HEAD`

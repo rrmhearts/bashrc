@@ -1,0 +1,130 @@
+#!/bin/bash
+
+PROD_NM="a6059"
+LOCAL_AND="$HOME/Android/Source/M6059/android6_scm/device/avery/$PROD_NM"
+BUS_NUM=0
+
+write-update() {
+	update-rfid 
+	init-rfid 
+	readpower-rfid 10
+	writepower-rfid 11
+	selecttelemetry-rfid 0x7F
+	writetag-rfid $1 $2 #"0x12345678901234567891 0xABCDEF12"
+	gettelemetry-rfid 
+}
+init-rfid() {
+	adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/init"
+}
+shutdown-rfid() {
+	adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/shutdown"
+}
+writetag-rfid() {
+	if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for write EPC"
+		return # exit 0
+	fi
+	adb shell "echo \"$1 $2\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/writetag"
+        # sleep 5
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/writetag"
+
+}
+writecho-rfid() {
+	if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for write EPC"
+		return # exit 0
+	fi
+	adb shell "echo \"$1 $2\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/writetag"
+}
+writecat-rfid() {
+	 adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/writetag"
+}
+writepower-rfid() {
+	if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for writepower"
+		return # exit 0
+	fi
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/writepower"
+        # sleep 1
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/writepower"
+
+}
+readpower-rfid() {
+        if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for readpower"
+		return # exit 0
+	fi
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/readpower"
+        # sleep 1
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/readpower"
+
+}
+region-rfid() {
+        if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for region"
+		return # exit 0
+	fi
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/region"
+        # sleep 1
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/region"
+
+}
+selecttelemetry-rfid() {
+        if [[ $# -eq 0 ]] ; then
+		echo "must provide a value for telemetry"
+		return # exit 0
+	fi
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/selecttelemetry"
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/selecttelemetry"
+}
+gettelemetry-rfid() {
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/gettelemetry"
+}
+gettellib-rfid() {
+	adb shell "/data/test_librfid.imx6 -t"
+}
+accesspassword-rfid() {
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/accesspassword"
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/accesspassword"
+}
+killpassword-rfid() {
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/killpassword"
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/killpassword"
+}
+lockcode-rfid() {
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/lockcode"
+        adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/lockcode"
+}
+readtag-rfid() {
+	adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/readtag"
+}
+version-rfid() {
+	adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/version"
+}
+dmesg-rfid() {
+	adb shell "dmesg" | tail -15
+}
+autopower-rfid() {
+	adb shell "cat /sys/bus/i2c/devices/${BUS_NUM}-0015/autopower"
+}
+update-rfid() {
+	cp $LOCAL_AND/librfid/librfid.h $LOCAL_AND/test_librfid
+	if adb shell "lsmod | grep "i2c_rfid" &> /dev/null" ; then
+		adb shell rmmod /data/i2c_rfid.ko
+	fi
+	adb push $LOCAL_AND/i2c_rfid_driver/i2c_rfid.ko /data/
+	adb shell insmod /data/i2c_rfid.ko
+	RET=`adb shell echo $?`
+	if [ $RET -eq 0 ]; then
+		echo "Success loading sysfs."
+	else
+		echo "Failed loading sysfs."
+	fi
+
+	adb push $LOCAL_AND/../../../out/target/product/$PROD_NM/system/bin/test_librfid.imx6 /data/test_librfid.imx6
+
+	adb push ~/Downloads/Application_RS500_Avery_01.06.08.240.bin /data/Application_RS500_Avery_01.06.08.240.bin
+}
+brightness-rfid() {
+	adb shell "echo \"$1\" > /sys/bus/i2c/devices/${BUS_NUM}-0015/brightness"
+}
