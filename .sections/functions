@@ -7,7 +7,7 @@ google() {
 	    echo "$term"
 	    search="$search%20$term"
 	done
-	    open "http://www.google.com/search?q=$search"
+	    xdg-open "http://www.google.com/search?q=$search"
 }
 
 back() {
@@ -158,11 +158,11 @@ fi
 
 files() {
 	if [ "$#" -eq 0 ]; then
-	   gnome-open . 2> /dev/null & disown
+	   xdg-open . 2> /dev/null & disown
 	elif [ "$1" == "-h" ]; then
 	   echo "Usage: 'files [dir]' Open directory in Files app"
 	else
-	   gnome-open $1 2> /dev/null & disown
+	   xdg-open $1 2> /dev/null & disown
 	fi
 }
 
@@ -203,7 +203,8 @@ replacestr_all() {
                 echo "Usage: 'replacestr_all dir/ oldstring newstring' for all strings THROUGHOUT files including the file names"
         else
                 grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
-		rename "s/$2/$3/" "$1"/*
+#		rename "s/$2/$3/" "$1"/*
+		find "$1" -depth -exec rename "s/$2/$3/" {} +
         fi
 # rename 's/\.bak$//' *.bak ## Strip extension
 # rename 'y/A-Z/a-z/' *     ## Upper case to lowercase
