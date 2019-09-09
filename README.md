@@ -12,6 +12,7 @@ sudo apt install fortune verse silversearcher-ag screenfetch libgnome2-bin diath
 
 ## New features!
 Searching Google!
+Fix for `replacestr_all` and `files`
 
 ## Retired features
 ### savoy
