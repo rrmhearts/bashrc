@@ -166,6 +166,16 @@ files() {
 	fi
 }
 
+findfile() {
+	if [ "$#" -eq 0 ]; then
+	   xdg-open . 2> /dev/null & disown
+	elif [ "$1" == "-h" ]; then
+	   echo "Usage: 'files [dir]' Open directory in Files app"
+	else
+	   find . -iname $1 2>&1 | grep -v "Permission denied"
+	fi
+}
+
 gebit() {
 	gedit "$@" & disown
 }
@@ -204,8 +214,8 @@ replacestr_all() {
         else
                 grep -rl "$2" "$1" | xargs sed -i "s/$2/$3/g"
 #		rename "s/$2/$3/" "$1"/*
-		#find "$1" -depth -type f -exec rename "s/$2/$3/" {} \;
 		find "$1" -depth -execdir rename "s/$2/$3/" {} +
+                find "$1" -depth -type f -exec rename "s/$2/$3/" {} \;
         fi
 # rename 's/\.bak$//' *.bak ## Strip extension
 # rename 'y/A-Z/a-z/' *     ## Upper case to lowercase
