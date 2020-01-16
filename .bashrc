@@ -6,9 +6,13 @@ source ~/.sections/defaults
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=5000
-HISTFILESIZE=20000
-
+HISTSIZE=9000
+HISTFILESIZE=90000
+#export PS1="\\w:\$(git branch 2>/dev/null | grep '^*' | colrm 1 2)\$ "
+parse_git_branch() {
+#	git branch 2> /dev/null | grep '^*' | colorm 1 2
+      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 # Using current history in other terminals ry
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
@@ -16,7 +20,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 stty -ixon
 
 # new prompt
-PS1='${debian_chroot:+($debian_chroot)}\[\033[00;34m\]\w\n\[\033[2;38;5;214m\]\@ \[\033[01;32m\]skylar\[\033[00m\]\$ '
+PS1='${debian_chroot:+($debian_chroot)}\[\033[00;34m\]\w\n\[\033[2;38;5;214m\]\@ \[\033[01;32m\]skylar\[\033[33m\]$(parse_git_branch)\[\033[00m\] 🌱 '
 # Introduction
 export USERNAME="Ryan"
 export NICKNAME="Ryan"
@@ -32,6 +36,7 @@ source ~/.sections/rfidtest
 #   echo 
 # done
 
+clear
 # Welcome 
 screenfetch
 
@@ -64,4 +69,3 @@ echo ${quoter[$rand]}
 
 echo
 cat ~/.notes.txt
-
